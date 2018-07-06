@@ -1,0 +1,12 @@
+[package]
+name = "rat"
+version = "0.1.0"
+authors = ["Ted Naleid <contact@naleid.com>"]
+
+[dependencies]
+clap = "~2.32.0"
+
+
+[dependencies.rdkafka]
+version = "0.17.0"
+features = ["ssl", "sasl"]

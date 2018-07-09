@@ -2,7 +2,8 @@ extern crate clap;
 
 use clap::{App, Arg, SubCommand};
 use std::io;
-use std::io::prelude::BufRead;
+use std::io::{BufRead, BufReader, BufWriter, Write};
+
 
 
 // time seq 2000 | cargo run -- tombstone > /dev/null
@@ -32,12 +33,16 @@ fn main() -> io::Result<()> {
         _ => eprintln!("verbose log level"),
     }
 
-    if let Some(matches) = matches.subcommand_matches("tombstone") {
+    if let Some(_) = matches.subcommand_matches("tombstone") {
         eprintln!("tombstone!");
         let stdin = io::stdin();
+        let stdout = io::stdout();
 
-        for line in stdin.lock().lines() {
-            println!("{}", line.unwrap());
+        let stdin = BufReader::with_capacity(8 * 1024, stdin);
+        let mut stdout = BufWriter::new(stdout);
+
+        for line in stdin.lines() {
+            writeln!(&mut stdout, "{}", line.unwrap()).unwrap();
         }
     }
 

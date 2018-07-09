@@ -38,8 +38,8 @@ fn main() -> io::Result<()> {
         let stdin = io::stdin();
         let stdout = io::stdout();
 
-        let stdin = BufReader::with_capacity(8 * 1024, stdin);
-        let mut stdout = BufWriter::new(stdout);
+        let stdin = BufReader::with_capacity(8 * 1024, stdin.lock());
+        let mut stdout = BufWriter::new(stdout.lock());
 
         for line in stdin.lines() {
             writeln!(&mut stdout, "{}", line.unwrap()).unwrap();
